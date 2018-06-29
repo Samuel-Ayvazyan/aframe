@@ -21,6 +21,7 @@ module.exports.Component = registerComponent('look-controls', {
     hmdEnabled: {default: true},
     pointerLockEnabled: {default: false},
     reverseMouseDrag: {default: false},
+    gyroEnabled: {default: true},
     touchEnabled: {default: true}
   },
 
@@ -196,8 +197,13 @@ module.exports.Component = registerComponent('look-controls', {
     hmdEuler.setFromQuaternion(this.polyfillObject.quaternion, 'YXZ');
 
     // On mobile, do camera rotation with touch events and sensors.
-    el.object3D.rotation.x = hmdEuler.x + pitchObject.rotation.x;
-    el.object3D.rotation.y = hmdEuler.y + yawObject.rotation.y;
+    if (this.data.gyroEnabled) {
+      el.object3D.rotation.x = hmdEuler.x + pitchObject.rotation.x;
+      el.object3D.rotation.y = hmdEuler.y + yawObject.rotation.y;
+    } else {
+      el.object3D.rotation.x = pitchObject.rotation.x;
+      el.object3D.rotation.y = yawObject.rotation.y;
+    }
   },
 
   /**
