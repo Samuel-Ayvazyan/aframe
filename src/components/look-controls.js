@@ -294,11 +294,14 @@ module.exports.Component = registerComponent('look-controls', {
     var deltaY, deltaX;
     var pitchObject = this.pitchObject;
     var yawObject = this.yawObject;
+    var direction;
 
     if (!this.touchStarted || !this.data.touchEnabled) { return; }
 
-    deltaY = 2 * Math.PI * (evt.touches[0].pageX - this.touchStart.x) / canvas.clientWidth;
-    deltaX = 2 * Math.PI * (evt.touches[0].pageY - this.touchStart.y) / canvas.clientHeight;
+    direction = this.data.reverseMouseDrag ? -1 : 1;
+
+    deltaY = direction * 2 * Math.PI * (evt.touches[0].pageX - this.touchStart.x) / canvas.clientWidth;
+    deltaX = direction * 2 * Math.PI * (evt.touches[0].pageY - this.touchStart.y) / canvas.clientHeight;
 
     // Allow touch orientaion to both x and y
     yawObject.rotation.y -= deltaY * 0.5;
