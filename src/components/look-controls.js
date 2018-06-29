@@ -22,6 +22,7 @@ module.exports.Component = registerComponent('look-controls', {
     pointerLockEnabled: {default: false},
     reverseMouseDrag: {default: false},
     gyroEnabled: {default: true},
+    rotationStrength: {default: 0.002},
     touchEnabled: {default: true}
   },
 
@@ -219,6 +220,7 @@ module.exports.Component = registerComponent('look-controls', {
     var pitchObject = this.pitchObject;
     var previousMouseEvent = this.previousMouseEvent;
     var yawObject = this.yawObject;
+    var rotationStrength = this.data.rotationStrength;
 
     // Not dragging or not enabled.
     if (!this.data.enabled || (!this.mouseDown && !this.pointerLocked)) { return; }
@@ -235,8 +237,8 @@ module.exports.Component = registerComponent('look-controls', {
 
     // Calculate rotation.
     direction = this.data.reverseMouseDrag ? 1 : -1;
-    yawObject.rotation.y += movementX * 0.002 * direction;
-    pitchObject.rotation.x += movementY * 0.002 * direction;
+    yawObject.rotation.y += movementX * rotationStrength * direction;
+    pitchObject.rotation.x += movementY * rotationStrength * direction;
     pitchObject.rotation.x = Math.max(-PI_2, Math.min(PI_2, pitchObject.rotation.x));
   },
 
