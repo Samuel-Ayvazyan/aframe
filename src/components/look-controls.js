@@ -102,6 +102,7 @@ module.exports.Component = registerComponent('look-controls', {
     this.onExitVR = bind(this.onExitVR, this);
     this.onPointerLockChange = bind(this.onPointerLockChange, this);
     this.onPointerLockError = bind(this.onPointerLockError, this);
+    this.onResetRotation = bind(this.onResetRotation, this);
   },
 
  /**
@@ -133,6 +134,9 @@ module.exports.Component = registerComponent('look-controls', {
     window.addEventListener('mousemove', this.onMouseMove, false);
     window.addEventListener('mouseup', this.onMouseUp, false);
 
+    // Rotation reset custom event
+    canvasEl.addEventListener('resetrotation', this.onResetRotation, false);
+
     // Touch events.
     canvasEl.addEventListener('touchstart', this.onTouchStart);
     window.addEventListener('touchmove', this.onTouchMove);
@@ -163,6 +167,7 @@ module.exports.Component = registerComponent('look-controls', {
     canvasEl.removeEventListener('mousedown', this.onMouseDown);
     window.removeEventListener('mousemove', this.onMouseMove);
     window.removeEventListener('mouseup', this.onMouseUp);
+    canvasEl.removeEventListener('resetrotation', this.onResetRotation);
 
     // Touch events.
     canvasEl.removeEventListener('touchstart', this.onTouchStart);
@@ -272,6 +277,15 @@ module.exports.Component = registerComponent('look-controls', {
   onMouseUp: function () {
     this.mouseDown = false;
     document.body.classList.remove(GRABBING_CLASS);
+  },
+
+  /**
+   * Reset rotation to initial 0, 0, 0 values .
+   */
+  onResetRotation: function () {
+    this.pitchObject.rotation.set(0, 0, 0);
+    this.yawObject.rotation.set(0, 0, 0);
+    this.updateOrientation();
   },
 
   /**
