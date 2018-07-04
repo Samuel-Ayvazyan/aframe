@@ -298,6 +298,7 @@ module.exports.Component = registerComponent('look-controls', {
       y: evt.touches[0].pageY
     };
     this.touchStarted = true;
+    document.body.classList.add(GRABBING_CLASS);
   },
 
   /**
@@ -332,6 +333,7 @@ module.exports.Component = registerComponent('look-controls', {
    */
   onTouchEnd: function () {
     this.touchStarted = false;
+    document.body.classList.remove(GRABBING_CLASS);
   },
 
   /**
