@@ -68061,6 +68061,7 @@ module.exports.Component = registerComponent('look-controls', {
       y: evt.touches[0].pageY
     };
     this.touchStarted = true;
+    document.body.classList.add(GRABBING_CLASS);
   },
 
   /**
@@ -68095,6 +68096,7 @@ module.exports.Component = registerComponent('look-controls', {
    */
   onTouchEnd: function () {
     this.touchStarted = false;
+    document.body.classList.remove(GRABBING_CLASS);
   },
 
   /**
@@ -78164,7 +78166,7 @@ _dereq_('./core/a-mixin');
 _dereq_('./extras/components/');
 _dereq_('./extras/primitives/');
 
-console.log('A-Frame Version: 0.8.2 (Date 2018-06-30, Commit #423bfaa0)');
+console.log('A-Frame Version: 0.8.2 (Date 2018-07-04, Commit #ab11a6b7)');
 console.log('three Version:', pkg.dependencies['three']);
 console.log('WebVR Polyfill Version:', pkg.dependencies['webvr-polyfill']);
 
