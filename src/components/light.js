@@ -19,7 +19,11 @@ module.exports.Component = registerComponent('light', {
     distance: {default: 0.0, min: 0, if: {type: ['point', 'spot']}},
     intensity: {default: 1.0, min: 0, if: {type: ['ambient', 'directional', 'hemisphere', 'point', 'spot']}},
     penumbra: {default: 0, min: 0, max: 1, if: {type: ['spot']}},
-    type: {default: 'directional', oneOf: ['ambient', 'directional', 'hemisphere', 'point', 'spot']},
+    type: {
+      default: 'directional',
+      oneOf: ['ambient', 'directional', 'hemisphere', 'point', 'spot'],
+      schemaChange: true
+    },
     target: {type: 'selector', if: {type: ['spot', 'directional']}},
 
     // Shadows.
@@ -45,6 +49,7 @@ module.exports.Component = registerComponent('light', {
     var el = this.el;
     this.light = null;
     this.defaultTarget = null;
+    this.rendererSystem = this.el.sceneEl.systems.renderer;
     this.system.registerLight(el);
   },
 
@@ -55,6 +60,7 @@ module.exports.Component = registerComponent('light', {
     var data = this.data;
     var diffData = diff(data, oldData);
     var light = this.light;
+    var rendererSystem = this.rendererSystem;
     var self = this;
 
     // Existing light.
@@ -67,11 +73,13 @@ module.exports.Component = registerComponent('light', {
         switch (key) {
           case 'color': {
             light.color.set(value);
+            rendererSystem.applyColorCorrection(light.color);
             break;
           }
 
           case 'groundColor': {
             light.groundColor.set(value);
+            rendererSystem.applyColorCorrection(light.groundColor);
             break;
           }
 
@@ -203,10 +211,14 @@ module.exports.Component = registerComponent('light', {
    */
   getLight: function (data) {
     var angle = data.angle;
-    var color = new THREE.Color(data.color).getHex();
+    var color = new THREE.Color(data.color);
+    this.rendererSystem.applyColorCorrection(color);
+    color = color.getHex();
     var decay = data.decay;
     var distance = data.distance;
-    var groundColor = new THREE.Color(data.groundColor).getHex();
+    var groundColor = new THREE.Color(data.groundColor);
+    this.rendererSystem.applyColorCorrection(groundColor);
+    groundColor = groundColor.getHex();
     var intensity = data.intensity;
     var type = data.type;
     var target = data.target;

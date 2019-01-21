@@ -3,12 +3,12 @@
 To include these builds, you can download and serve them locally.
 
 To include the latest [master build](#master-builds) from a CDN, include the
-script below from the [rawgit CDN](https://rawgit.com/):
+script below from the [jsdelivr CDN](https://www.jsdelivr.com/):
 
 ```html
 <html>
   <head>
-    <script src="https://rawgit.com/aframevr/aframe/c325fd2/dist/aframe-master.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@056b2bce5d448f0c9e9e1855397ff7a40847d4c5/dist/aframe-master.min.js"></script>
   </head>
   <body>
     <a-scene>

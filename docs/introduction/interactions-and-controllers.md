@@ -1,9 +1,9 @@
 ---
-title: "Interactions & Controllers"
+title: Interactions & Controllers
 type: introduction
 layout: docs
 parent_section: introduction
-order: 8.5
+order: 9
 examples:
   - title: Basic Interaction
     src: https://glitch.com/edit/#!/aframe-basic-interaction?path=index.html:1:0
@@ -104,7 +104,7 @@ attached to the camera:
 
 [Remix this event set component example on Glitch](https://glitch.com/~aframe-event-set-component).
 
-[event-set]: https://github.com/ngokevin/kframe/tree/master/components/event-set
+[event-set]: https://github.com/supermedium/superframe/tree/master/components/event-set
 
 Now let's handle the events that the cursor component provides. The cursor
 component emits synthetic events like `click`, `mouseenter`, `mouseleave`,
@@ -402,7 +402,7 @@ desktop browser][rocks]:
 The Web has the benefit of being able to support multiple platforms. Though
 it's less clear in VR what supporting multiple platforms entails since a 3DoF
 platform versus a 6DoF platform provide different interactions and require
-different user experience treatent. It will be up to the application what
+different user experience treatment. It will be up to the application what
 "responsive" means for VR on the Web. What we can show are several different
 methods, but none that are truly one-size-fits-all.
 
@@ -560,7 +560,7 @@ raycaster][raycasterfar]. When the laser intersects with an entity, the length
 of the laser will be truncated.
 
 ```html
-<a-entity hand-controls controller-cursor raycaster="far: 2"></a-entity>
+<a-entity hand-controls laser-controls raycaster="far: 2"></a-entity>
 ```
 
 [gaze]: #gaze-based-interactions-with-cursor-component
