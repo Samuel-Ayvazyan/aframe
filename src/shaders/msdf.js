@@ -49,14 +49,22 @@ module.exports.Shader = registerShader('msdf', {
     '#define MODIFIED_ALPHATEST (0.02 * isBigEnough / BIG_ENOUGH)',
 
     'void main() {',
-    '  vec3 sample = texture2D(map, vUV).rgb;',
-    '  if (negate) { sample = 1.0 - sample; }',
+    '  vec3 sampleColor = texture2D(map, vUV).rgb;',
+    '  if (negate) { sampleColor = 1.0 - sampleColor; }',
 
-    '  float sigDist = median(sample.r, sample.g, sample.b) - 0.5;',
+    '  float sigDist = median(sampleColor.r, sampleColor.g, sampleColor.b) - 0.5;',
     '  float alpha = clamp(sigDist / fwidth(sigDist) + 0.5, 0.0, 1.0);',
     '  float dscale = 0.353505;',
     '  vec2 duv = dscale * (dFdx(vUV) + dFdy(vUV));',
     '  float isBigEnough = max(abs(duv.x), abs(duv.y));',
+
+    // When texel is too small, blend raw alpha value rather than supersampling.
+    // FIXME: Experimentally determined constant.
+    '  // Do modified alpha test.',
+    '  if (isBigEnough > BIG_ENOUGH) {',
+    '    float ratio = BIG_ENOUGH / isBigEnough;',
+    '    alpha = ratio * alpha + (1.0 - ratio) * (sigDist + 0.5);',
+    '  }',
 
     '  // Do modified alpha test.',
     '  if (alpha < alphaTest * MODIFIED_ALPHATEST) { discard; return; }',
